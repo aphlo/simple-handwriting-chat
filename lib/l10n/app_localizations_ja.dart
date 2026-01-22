@@ -41,4 +41,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String version(String version) {
     return 'バージョン $version';
   }
+
+  @override
+  String get language => '言語';
+
+  @override
+  String get languageSystem => 'システム設定';
+
+  @override
+  String get languageEnglish => '英語';
+
+  @override
+  String get languageJapanese => '日本語';
 }

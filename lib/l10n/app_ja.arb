@@ -9,5 +9,9 @@
   "termsOfService": "利用規約",
   "privacyPolicy": "プライバシーポリシー",
   "licenses": "ライセンス",
-  "version": "バージョン {version}"
+  "version": "バージョン {version}",
+  "language": "言語",
+  "languageSystem": "システム設定",
+  "languageEnglish": "英語",
+  "languageJapanese": "日本語"
 }

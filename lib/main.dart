@@ -1,16 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'l10n/app_localizations.dart';
 
 const String termsOfServiceUrl = 'https://example.com/terms';
 const String privacyPolicyUrl = 'https://example.com/privacy';
+const String _languageKey = 'language';
 
 void main() => runApp(const SimpleHandwritingChatApp());
 
-class SimpleHandwritingChatApp extends StatelessWidget {
+class SimpleHandwritingChatApp extends StatefulWidget {
   const SimpleHandwritingChatApp({super.key});
+
+  static void setLocale(BuildContext context, Locale? locale) {
+    final state = context.findAncestorStateOfType<_SimpleHandwritingChatAppState>();
+    state?.setLocale(locale);
+  }
+
+  @override
+  State<SimpleHandwritingChatApp> createState() => _SimpleHandwritingChatAppState();
+}
+
+class _SimpleHandwritingChatAppState extends State<SimpleHandwritingChatApp> {
+  Locale? _locale;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadLocale();
+  }
+
+  Future<void> _loadLocale() async {
+    final prefs = await SharedPreferences.getInstance();
+    final languageCode = prefs.getString(_languageKey);
+    if (languageCode != null) {
+      setState(() {
+        _locale = Locale(languageCode);
+      });
+    }
+  }
+
+  void setLocale(Locale? locale) async {
+    final prefs = await SharedPreferences.getInstance();
+    if (locale == null) {
+      await prefs.remove(_languageKey);
+    } else {
+      await prefs.setString(_languageKey, locale.languageCode);
+    }
+    setState(() {
+      _locale = locale;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +63,7 @@ class SimpleHandwritingChatApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
         useMaterial3: true,
       ),
+      locale: _locale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       home: const MirrorDrawingPage(),
@@ -370,14 +413,88 @@ class MirrorPainter extends CustomPainter {
   }
 }
 
-class MenuPage extends StatelessWidget {
+class MenuPage extends StatefulWidget {
   const MenuPage({super.key});
+
+  @override
+  State<MenuPage> createState() => _MenuPageState();
+}
+
+class _MenuPageState extends State<MenuPage> {
+  String? _currentLanguage;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCurrentLanguage();
+  }
+
+  Future<void> _loadCurrentLanguage() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _currentLanguage = prefs.getString(_languageKey);
+    });
+  }
 
   void _openWebView(BuildContext context, String title, String url) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => WebViewPage(title: title, url: url),
+      ),
+    );
+  }
+
+  String _getLanguageDisplayName(AppLocalizations l10n, String? code) {
+    switch (code) {
+      case 'en':
+        return l10n.languageEnglish;
+      case 'ja':
+        return l10n.languageJapanese;
+      default:
+        return l10n.languageSystem;
+    }
+  }
+
+  void _showLanguageDialog() {
+    final l10n = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          title: Text(l10n.language),
+          children: [
+            _buildLanguageOption(l10n, null, l10n.languageSystem),
+            _buildLanguageOption(l10n, 'en', l10n.languageEnglish),
+            _buildLanguageOption(l10n, 'ja', l10n.languageJapanese),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildLanguageOption(
+    AppLocalizations l10n,
+    String? code,
+    String label,
+  ) {
+    final isSelected = _currentLanguage == code;
+    return SimpleDialogOption(
+      onPressed: () {
+        setState(() {
+          _currentLanguage = code;
+        });
+        SimpleHandwritingChatApp.setLocale(
+          context,
+          code != null ? Locale(code) : null,
+        );
+        Navigator.pop(context);
+      },
+      child: Row(
+        children: [
+          Expanded(child: Text(label)),
+          if (isSelected) const Icon(Icons.check, color: Colors.teal),
+        ],
       ),
     );
   }
@@ -399,6 +516,14 @@ class MenuPage extends StatelessWidget {
 
           return ListView(
             children: [
+              ListTile(
+                leading: const Icon(Icons.language),
+                title: Text(l10n.language),
+                subtitle: Text(_getLanguageDisplayName(l10n, _currentLanguage)),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: _showLanguageDialog,
+              ),
+              const Divider(),
               ListTile(
                 leading: const Icon(Icons.description_outlined),
                 title: Text(l10n.termsOfService),

@@ -23,5 +23,9 @@
         "type": "String"
       }
     }
-  }
+  },
+  "language": "Language",
+  "languageSystem": "System Default",
+  "languageEnglish": "English",
+  "languageJapanese": "Japanese"
 }
