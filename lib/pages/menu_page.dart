@@ -125,92 +125,95 @@ class _MenuPageState extends State<MenuPage> {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.menu)),
-      body: Column(
-        children: [
-          Expanded(
-            child: FutureBuilder<PackageInfo>(
-              future: PackageInfo.fromPlatform(),
-              builder: (context, snapshot) {
-                final version = snapshot.hasData
-                    ? '${snapshot.data!.version}+${snapshot.data!.buildNumber}'
-                    : '';
+      body: SafeArea(
+        top: false,
+        child: Column(
+          children: [
+            Expanded(
+              child: FutureBuilder<PackageInfo>(
+                future: PackageInfo.fromPlatform(),
+                builder: (context, snapshot) {
+                  final version = snapshot.hasData
+                      ? '${snapshot.data!.version}+${snapshot.data!.buildNumber}'
+                      : '';
 
-                return ListView(
-                  children: [
-                    ListTile(
-                      leading: const Icon(Icons.language),
-                      title: Text(l10n.language),
-                      subtitle: Text(
-                        _getLanguageDisplayName(l10n, _currentLanguage),
-                      ),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: _showLanguageDialog,
-                    ),
-                    const Divider(),
-                    ListTile(
-                      leading: const Icon(Icons.description_outlined),
-                      title: Text(l10n.termsOfService),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () => _openWebView(
-                        context,
-                        l10n.termsOfService,
-                        termsOfServiceUrl,
-                      ),
-                    ),
-                    ListTile(
-                      leading: const Icon(Icons.privacy_tip_outlined),
-                      title: Text(l10n.privacyPolicy),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () => _openWebView(
-                        context,
-                        l10n.privacyPolicy,
-                        privacyPolicyUrl,
-                      ),
-                    ),
-                    ListTile(
-                      leading: const Icon(Icons.article_outlined),
-                      title: Text(l10n.licenses),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () {
-                        showLicensePage(
-                          context: context,
-                          applicationName: 'Simple Handwriting Chat',
-                          applicationVersion: version,
-                        );
-                      },
-                    ),
-                    const Divider(),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        l10n.version(version),
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.outline,
+                  return ListView(
+                    children: [
+                      ListTile(
+                        leading: const Icon(Icons.language),
+                        title: Text(l10n.language),
+                        subtitle: Text(
+                          _getLanguageDisplayName(l10n, _currentLanguage),
                         ),
-                        textAlign: TextAlign.center,
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: _showLanguageDialog,
                       ),
-                    ),
-                  ],
-                );
-              },
+                      const Divider(),
+                      ListTile(
+                        leading: const Icon(Icons.description_outlined),
+                        title: Text(l10n.termsOfService),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () => _openWebView(
+                          context,
+                          l10n.termsOfService,
+                          termsOfServiceUrl,
+                        ),
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.privacy_tip_outlined),
+                        title: Text(l10n.privacyPolicy),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () => _openWebView(
+                          context,
+                          l10n.privacyPolicy,
+                          privacyPolicyUrl,
+                        ),
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.article_outlined),
+                        title: Text(l10n.licenses),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () {
+                          showLicensePage(
+                            context: context,
+                            applicationName: 'Simple Handwriting Chat',
+                            applicationVersion: version,
+                          );
+                        },
+                      ),
+                      const Divider(),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          l10n.version(version),
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.outline,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
-          ),
-          if (_isNativeAdLoaded && _nativeAd != null)
-            Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                border: Border(
-                  top: BorderSide(
-                    color: Theme.of(context).colorScheme.outlineVariant,
+            if (_isNativeAdLoaded && _nativeAd != null)
+              Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                  border: Border(
+                    top: BorderSide(
+                      color: Theme.of(context).colorScheme.outlineVariant,
+                    ),
                   ),
                 ),
+                child: SafeArea(
+                  top: false,
+                  child: SizedBox(height: 300, child: AdWidget(ad: _nativeAd!)),
+                ),
               ),
-              child: SafeArea(
-                top: false,
-                child: SizedBox(height: 300, child: AdWidget(ad: _nativeAd!)),
-              ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }
