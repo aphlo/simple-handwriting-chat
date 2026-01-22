@@ -1,0 +1,27 @@
+{
+  "@@locale": "en",
+  "settings": "Settings",
+  "strokeColor": "Stroke Color",
+  "strokeWidth": "Stroke Width: {width}",
+  "@strokeWidth": {
+    "placeholders": {
+      "width": {
+        "type": "String"
+      }
+    }
+  },
+  "undo": "Undo",
+  "clear": "Clear",
+  "menu": "Menu",
+  "termsOfService": "Terms of Service",
+  "privacyPolicy": "Privacy Policy",
+  "licenses": "Licenses",
+  "version": "Version {version}",
+  "@version": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  }
+}

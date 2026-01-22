@@ -1,0 +1,13 @@
+{
+  "@@locale": "ja",
+  "settings": "設定",
+  "strokeColor": "線の色",
+  "strokeWidth": "線の太さ: {width}",
+  "undo": "元に戻す",
+  "clear": "クリア",
+  "menu": "メニュー",
+  "termsOfService": "利用規約",
+  "privacyPolicy": "プライバシーポリシー",
+  "licenses": "ライセンス",
+  "version": "バージョン {version}"
+}
