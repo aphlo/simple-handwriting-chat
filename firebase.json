@@ -1,0 +1,30 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "simple-handwriting-chat",
+          "appId": "1:145053663169:android:9499f46ff9f927dba1f940",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "simple-handwriting-chat",
+          "appId": "1:145053663169:ios:ace86814b09edacca1f940",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "simple-handwriting-chat",
+          "configurations": {
+            "android": "1:145053663169:android:9499f46ff9f927dba1f940",
+            "ios": "1:145053663169:ios:ace86814b09edacca1f940"
+          }
+        }
+      }
+    }
+  }
+}
