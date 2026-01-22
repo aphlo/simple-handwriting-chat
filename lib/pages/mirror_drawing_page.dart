@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import '../models/stroke.dart';
 import '../painters/mirror_painter.dart';
+import '../services/ad_service.dart';
 import '../services/review_service.dart';
 import 'menu_page.dart';
 
@@ -100,6 +101,7 @@ class _MirrorDrawingPageState extends State<MirrorDrawingPage> {
     _activeStrokes.clear();
     setState(() {});
     ReviewService().onClearButtonPressed();
+    AdService().onClearButtonPressed();
   }
 
   void _showSettings() {
