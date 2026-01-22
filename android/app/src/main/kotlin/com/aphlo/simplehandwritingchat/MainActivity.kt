@@ -1,4 +1,4 @@
-package com.aphlo.simplehandwritingchat.simple_handwriting_chat
+package com.aphlo.simplehandwritingchat
 
 import io.flutter.embedding.android.FlutterActivity
 
