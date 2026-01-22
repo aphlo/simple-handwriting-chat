@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import '../models/stroke.dart';
 import '../painters/mirror_painter.dart';
+import '../services/review_service.dart';
 import 'menu_page.dart';
 
 class MirrorDrawingPage extends StatefulWidget {
@@ -98,6 +99,7 @@ class _MirrorDrawingPageState extends State<MirrorDrawingPage> {
     _strokes.clear();
     _activeStrokes.clear();
     setState(() {});
+    ReviewService().onClearButtonPressed();
   }
 
   void _showSettings() {
