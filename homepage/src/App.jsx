@@ -1,14 +1,15 @@
-import { Route, Routes } from 'react-router-dom';
-import Home from './pages/Home';
-import Privacy from './pages/Privacy';
-import Terms from './pages/Terms';
+import LanguageRedirect from './components/LanguageRedirect';
+import Layout from './components/Layout';
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/terms" element={<Terms />} />
-      <Route path="/privacy" element={<Privacy />} />
+      <Route path="/" element={<LanguageRedirect />} />
+      <Route path="/:lang" element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="terms" element={<Terms />} />
+        <Route path="privacy" element={<Privacy />} />
+      </Route>
     </Routes>
   );
 }

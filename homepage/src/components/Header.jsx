@@ -4,10 +4,16 @@ import { Link } from 'react-router-dom';
 
 export default function Header() {
   const { t, i18n } = useTranslation();
+  const lang = i18n.language;
 
   const toggleLanguage = () => {
-    const newLang = i18n.language === 'en' ? 'ja' : 'en';
-    i18n.changeLanguage(newLang);
+    const newLang = lang === 'en' ? 'ja' : 'en';
+    const currentPath = window.location.pathname;
+    // Replace current lang segment with new lang
+    // /en/terms -> /ja/terms
+    // /en -> /ja
+    const newPath = currentPath.replace(`/${lang}`, `/${newLang}`);
+    window.location.href = newPath;
   };
 
   return (
@@ -15,15 +21,15 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex-shrink-0 flex items-center">
-            <Link to="/" className="text-2xl font-bold text-gray-900 font-handwriting">
+            <Link to={`/${lang}`} className="text-2xl font-bold text-gray-900 font-handwriting">
               {t('app.title')}
             </Link>
           </div>
           <div className="hidden md:flex items-center space-x-8">
-            <Link to="/terms" className="text-gray-600 hover:text-primary-700 transition-colors">
+            <Link to={`/${lang}/terms`} className="text-gray-600 hover:text-primary-700 transition-colors">
               {t('footer.terms')}
             </Link>
-            <Link to="/privacy" className="text-gray-600 hover:text-primary-700 transition-colors">
+            <Link to={`/${lang}/privacy`} className="text-gray-600 hover:text-primary-700 transition-colors">
               {t('footer.privacy')}
             </Link>
             <button
@@ -32,7 +38,7 @@ export default function Header() {
               className="flex items-center space-x-1 text-gray-600 hover:text-primary-700 transition-colors"
             >
               <Globe className="w-5 h-5" />
-              <span className="text-sm font-medium">{i18n.language.toUpperCase()}</span>
+              <span className="text-sm font-medium">{lang.toUpperCase()}</span>
             </button>
           </div>
           {/* Mobile menu button placeholder - can be expanded later */}
