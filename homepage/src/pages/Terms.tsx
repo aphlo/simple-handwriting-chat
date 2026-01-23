@@ -4,35 +4,39 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 const SECTION_KEYS = [
-  'compliance',
-  'safety',
-  'acquisitionCompliance',
-  'acquisition',
-  'purpose',
-  'provision',
-  'purposeChange',
-  'thirdParty',
-  'review',
-  'disposal',
-  'contact',
+  'intro',
+  'applicability',
+  'prohibited',
+  'suspension',
+  'restriction',
+  'change',
+  'termsChange',
+  'assignment',
+  'disclaimer',
+  'governingLaw',
 ];
 
-export default function Privacy() {
+export default function Terms() {
   const { t } = useTranslation();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  const appName = t('app.title');
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
       <main className="pt-24 pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-8">{t('marketing.privacy.title')}</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-8">{t('marketing.terms.title')}</h1>
           <div className="space-y-8 text-gray-600 leading-relaxed">
-            {SECTION_KEYS.map(key => (
-              <Section key={key} sectionData={t(`marketing.privacy.sections.${key}`, { returnObjects: true })} />
+            {SECTION_KEYS.map((key) => (
+              <Section
+                key={key}
+                sectionData={t(`marketing.terms.sections.${key}`, { returnObjects: true, name: appName }) as unknown as SectionData}
+              />
             ))}
           </div>
         </div>
@@ -42,7 +46,14 @@ export default function Privacy() {
   );
 }
 
-function Section({ sectionData }) {
+interface SectionData {
+  title: string;
+  body?: string;
+  list?: string[];
+  bodyAfter?: string;
+}
+
+function Section({ sectionData }: { sectionData: SectionData }) {
   if (!sectionData) return null;
   const { title, body, list, bodyAfter } = sectionData;
 

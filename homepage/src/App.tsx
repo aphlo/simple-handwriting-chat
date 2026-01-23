@@ -1,5 +1,9 @@
-import LanguageRedirect from './components/LanguageRedirect';
+import { Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
+import LanguageRedirect from './components/LanguageRedirect';
+import Home from './pages/Home';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
 
 function App() {
   return (

@@ -5,7 +5,7 @@ export default function LanguageRedirect() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const userLang = navigator.language || navigator.userLanguage;
+    const userLang = navigator.language;
     const targetLang = userLang.startsWith('ja') ? 'ja' : 'en';
     navigate(`/${targetLang}`, { replace: true });
   }, [navigate]);
