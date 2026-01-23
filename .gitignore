@@ -1,6 +1,13 @@
 # FVM
 .fvm/
+
+## IDE
 .idea/
+
+## AI Skills
+.agent/
+.claude/
+.shared/
 
 # Firebase
 **/ios/Runner/GoogleService-Info.plist
