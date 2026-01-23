@@ -4,6 +4,10 @@
     "subtitle": "Chat with handwritten messages. Simple, personal, and fun.",
     "download": "Download Now"
   },
+  "hero": {
+    "appStoreAlt": "Download on the App Store",
+    "googlePlayAlt": "Get it on Google Play"
+  },
   "features": {
     "mirror": {
       "title": "Mirror Drawing",

@@ -4,6 +4,10 @@
     "subtitle": "手描きのメッセージで会話しよう。シンプルで、パーソナルで、楽しい。",
     "download": "今すぐダウンロード"
   },
+  "hero": {
+    "appStoreAlt": "App Storeからダウンロード",
+    "googlePlayAlt": "Google Playで手に入れよう"
+  },
   "features": {
     "mirror": {
       "title": "ミラー描画",

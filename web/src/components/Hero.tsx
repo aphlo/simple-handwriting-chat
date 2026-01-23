@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next';
 
 export default function Hero() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const badgeLang = i18n.language === 'ja' ? 'ja' : 'en';
 
   return (
     <section className="pt-32 pb-16 md:pt-48 md:pb-32 bg-gradient-to-br from-primary-50 to-white overflow-hidden">
@@ -17,15 +18,15 @@ export default function Hero() {
             <div className="mt-8 sm:max-w-lg sm:mx-auto sm:text-center lg:text-left lg:mx-0 flex flex-row flex-wrap gap-4">
               <a href="#" className="inline-block transition-transform hover:scale-105">
                 <img
-                  src="/Download_on_the_App_Store_Badge_JP_RGB_blk_100317.svg"
-                  alt="Download on the App Store"
+                  src={`/apple/${badgeLang}.svg`}
+                  alt={t('hero.appStoreAlt')}
                   className="h-12 w-auto"
                 />
               </a>
               <a href="#" className="inline-block transition-transform hover:scale-105">
                 <img
-                  src="/GetItOnGooglePlay_Badge_Web_color_Japanese.svg"
-                  alt="Get it on Google Play"
+                  src={`/google/${badgeLang}.svg`}
+                  alt={t('hero.googlePlayAlt')}
                   className="h-12 w-auto"
                 />
               </a>
