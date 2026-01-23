@@ -1,4 +1,3 @@
-import { Download } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 export default function Hero() {
@@ -15,14 +14,21 @@ export default function Hero() {
             <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0 font-handwriting text-primary-700">
               {t('app.subtitle')}
             </p>
-            <div className="mt-8 sm:max-w-lg sm:mx-auto sm:text-center lg:text-left lg:mx-0">
-              <button
-                type="button"
-                className="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all transform hover:scale-105"
-              >
-                <Download className="w-5 h-5 mr-2" />
-                {t('app.download')}
-              </button>
+            <div className="mt-8 sm:max-w-lg sm:mx-auto sm:text-center lg:text-left lg:mx-0 flex flex-row flex-wrap gap-4">
+              <a href="#" className="inline-block transition-transform hover:scale-105">
+                <img
+                  src="/Download_on_the_App_Store_Badge_JP_RGB_blk_100317.svg"
+                  alt="Download on the App Store"
+                  className="h-12 w-auto"
+                />
+              </a>
+              <a href="#" className="inline-block transition-transform hover:scale-105">
+                <img
+                  src="/GetItOnGooglePlay_Badge_Web_color_Japanese.svg"
+                  alt="Get it on Google Play"
+                  className="h-12 w-auto"
+                />
+              </a>
             </div>
           </div>
           <div className="mt-12 relative sm:max-w-lg sm:mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-span-6 lg:flex lg:items-center">
