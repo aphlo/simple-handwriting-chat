@@ -3,7 +3,6 @@ out
 node_modules
 .firebase
 .DS_Store
-package-lock.json
 pnpm-lock.yaml
 src/index.css
 **/*.css

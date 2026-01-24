@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useDictionary } from './DictionaryProvider';
 
 export default function Hero() {
@@ -18,17 +19,25 @@ export default function Hero() {
               {dict.app.subtitle}
             </p>
             <div className="mt-8 sm:max-w-lg sm:mx-auto sm:text-center lg:text-left lg:mx-0 flex flex-row flex-wrap gap-4">
+              {/* biome-ignore lint/a11y/useValidAnchor: Placeholder link - replace with actual App Store URL */}
               <a href="#" className="inline-block transition-transform hover:scale-105">
-                <img src={`/apple/${badgeLang}.svg`} alt={dict.hero.appStoreAlt} className="h-12 w-auto" />
+                <Image src={`/apple/${badgeLang}.svg`} alt={dict.hero.appStoreAlt} width={135} height={48} />
               </a>
+              {/* biome-ignore lint/a11y/useValidAnchor: Placeholder link - replace with actual Google Play URL */}
               <a href="#" className="inline-block transition-transform hover:scale-105">
-                <img src={`/google/${badgeLang}.svg`} alt={dict.hero.googlePlayAlt} className="h-12 w-auto" />
+                <Image src={`/google/${badgeLang}.svg`} alt={dict.hero.googlePlayAlt} width={162} height={48} />
               </a>
             </div>
           </div>
           <div className="mt-12 relative sm:max-w-lg sm:mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-span-6 lg:flex lg:items-center">
             <div className="relative mx-auto w-full lg:max-w-md">
-              <img src="/screen_shot.png" alt="App Screenshot" className="w-full h-auto rounded-3xl shadow-2xl" />
+              <Image
+                src="/screen_shot.png"
+                alt="App Screenshot"
+                width={400}
+                height={800}
+                className="w-full h-auto rounded-3xl shadow-2xl"
+              />
             </div>
           </div>
         </div>

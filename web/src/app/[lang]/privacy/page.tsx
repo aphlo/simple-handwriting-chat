@@ -64,6 +64,7 @@ function Section({ sectionData }: { sectionData: SectionData }) {
       {list && Array.isArray(list) && (
         <ul className="list-disc pl-5 mb-3 space-y-1">
           {list.map((item, index) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: Static list that never reorders
             <li key={index}>{item}</li>
           ))}
         </ul>
