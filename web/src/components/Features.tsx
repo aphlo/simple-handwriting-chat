@@ -1,23 +1,25 @@
+'use client';
+
 import { PenTool, Share2, ShieldCheck } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+import { useDictionary } from './DictionaryProvider';
 
 export default function Features() {
-  const { t } = useTranslation();
+  const { dict } = useDictionary();
 
   const features = [
     {
-      name: t('features.mirror.title'),
-      description: t('features.mirror.desc'),
+      name: dict.features.mirror.title,
+      description: dict.features.mirror.desc,
       icon: Share2,
     },
     {
-      name: t('features.simple.title'),
-      description: t('features.simple.desc'),
+      name: dict.features.simple.title,
+      description: dict.features.simple.desc,
       icon: PenTool,
     },
     {
-      name: t('features.private.title'),
-      description: t('features.private.desc'),
+      name: dict.features.private.title,
+      description: dict.features.private.desc,
       icon: ShieldCheck,
     },
   ];

@@ -1,7 +1,9 @@
+'use client';
+
 import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import Footer from '../components/Footer';
-import Header from '../components/Header';
+import { useDictionary } from '@/components/DictionaryProvider';
+import Footer from '@/components/Footer';
+import Header from '@/components/Header';
 
 const SECTION_KEYS = [
   'compliance',
@@ -15,10 +17,19 @@ const SECTION_KEYS = [
   'review',
   'disposal',
   'contact',
-];
+] as const;
 
-export default function Privacy() {
-  const { t } = useTranslation();
+type SectionKey = (typeof SECTION_KEYS)[number];
+
+interface SectionData {
+  title: string;
+  body?: string;
+  list?: string[];
+  bodyAfter?: string;
+}
+
+export default function PrivacyPage() {
+  const { dict } = useDictionary();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -29,13 +40,10 @@ export default function Privacy() {
       <Header />
       <main className="pt-24 pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-8">{t('marketing.privacy.title')}</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-8">{dict.marketing.privacy.title}</h1>
           <div className="space-y-8 text-gray-600 leading-relaxed">
-            {SECTION_KEYS.map((key) => (
-              <Section
-                key={key}
-                sectionData={t(`marketing.privacy.sections.${key}`, { returnObjects: true }) as unknown as SectionData}
-              />
+            {SECTION_KEYS.map(key => (
+              <Section key={key} sectionData={dict.marketing.privacy.sections[key as SectionKey] as SectionData} />
             ))}
           </div>
         </div>
@@ -43,13 +51,6 @@ export default function Privacy() {
       <Footer />
     </div>
   );
-}
-
-interface SectionData {
-  title: string;
-  body?: string;
-  list?: string[];
-  bodyAfter?: string;
 }
 
 function Section({ sectionData }: { sectionData: SectionData }) {
@@ -63,7 +64,6 @@ function Section({ sectionData }: { sectionData: SectionData }) {
       {list && Array.isArray(list) && (
         <ul className="list-disc pl-5 mb-3 space-y-1">
           {list.map((item, index) => (
-            // biome-ignore lint/suspicious/noArrayIndexKey: Static list
             <li key={index}>{item}</li>
           ))}
         </ul>

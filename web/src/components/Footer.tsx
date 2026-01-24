@@ -1,23 +1,24 @@
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+'use client';
+
+import Link from 'next/link';
+import { useDictionary } from './DictionaryProvider';
 
 export default function Footer() {
-  const { t, i18n } = useTranslation();
+  const { dict, lang } = useDictionary();
   const year = new Date().getFullYear();
-  const lang = i18n.language;
 
   return (
     <footer className="bg-gray-50 border-t border-gray-100 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
         <div className="mb-4 md:mb-0">
-          <span className="text-gray-500 text-sm">{t('footer.copyright', { year })}</span>
+          <span className="text-gray-500 text-sm">{dict.footer.copyright.replace('{{year}}', String(year))}</span>
         </div>
         <div className="flex space-x-6">
-          <Link to={`/${lang}/terms`} className="text-gray-500 hover:text-primary-700 text-sm transition-colors">
-            {t('footer.terms')}
+          <Link href={`/${lang}/terms`} className="text-gray-500 hover:text-primary-700 text-sm transition-colors">
+            {dict.footer.terms}
           </Link>
-          <Link to={`/${lang}/privacy`} className="text-gray-500 hover:text-primary-700 text-sm transition-colors">
-            {t('footer.privacy')}
+          <Link href={`/${lang}/privacy`} className="text-gray-500 hover:text-primary-700 text-sm transition-colors">
+            {dict.footer.privacy}
           </Link>
         </div>
       </div>

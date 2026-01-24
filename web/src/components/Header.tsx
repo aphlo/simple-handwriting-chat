@@ -1,18 +1,17 @@
+'use client';
+
 import { Globe } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useDictionary } from './DictionaryProvider';
 
 export default function Header() {
-  const { t, i18n } = useTranslation();
-  const lang = i18n.language;
+  const { dict, lang } = useDictionary();
+  const pathname = usePathname();
 
   const toggleLanguage = () => {
     const newLang = lang === 'en' ? 'ja' : 'en';
-    const currentPath = window.location.pathname;
-    // Replace current lang segment with new lang
-    // /en/terms -> /ja/terms
-    // /en -> /ja
-    const newPath = currentPath.replace(`/${lang}`, `/${newLang}`);
+    const newPath = pathname.replace(`/${lang}`, `/${newLang}`);
     window.location.href = newPath;
   };
 
@@ -21,16 +20,16 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex-shrink-0 flex items-center">
-            <Link to={`/${lang}`} className="text-2xl font-bold text-gray-900 font-handwriting">
-              {t('app.title')}
+            <Link href={`/${lang}`} className="text-2xl font-bold text-gray-900 font-handwriting">
+              {dict.app.title}
             </Link>
           </div>
           <div className="hidden md:flex items-center space-x-8">
-            <Link to={`/${lang}/terms`} className="text-gray-600 hover:text-primary-700 transition-colors">
-              {t('footer.terms')}
+            <Link href={`/${lang}/terms`} className="text-gray-600 hover:text-primary-700 transition-colors">
+              {dict.footer.terms}
             </Link>
-            <Link to={`/${lang}/privacy`} className="text-gray-600 hover:text-primary-700 transition-colors">
-              {t('footer.privacy')}
+            <Link href={`/${lang}/privacy`} className="text-gray-600 hover:text-primary-700 transition-colors">
+              {dict.footer.privacy}
             </Link>
             <button
               type="button"
@@ -41,7 +40,6 @@ export default function Header() {
               <span className="text-sm font-medium">{lang.toUpperCase()}</span>
             </button>
           </div>
-          {/* Mobile menu button placeholder - can be expanded later */}
           <div className="md:hidden flex items-center">
             <button
               type="button"
