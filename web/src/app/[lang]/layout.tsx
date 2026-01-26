@@ -34,7 +34,7 @@ export default async function LangLayout({ children, params }: Props) {
   const dict = getDictionary(lang as Locale);
 
   return (
-    <html lang={lang}>
+    <html lang={lang} suppressHydrationWarning> 
       <body>
         <DictionaryProvider dictionary={dict} lang={lang as Locale}>
           {children}

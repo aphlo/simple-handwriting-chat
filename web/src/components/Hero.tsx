@@ -19,12 +19,16 @@ export default function Hero() {
               {dict.app.subtitle}
             </p>
             <div className="mt-8 sm:max-w-lg sm:mx-auto sm:text-center lg:text-left lg:mx-0 flex flex-row flex-wrap gap-4">
-              {/* biome-ignore lint/a11y/useValidAnchor: Placeholder link - replace with actual App Store URL */}
-              <a href="#" className="inline-block transition-transform hover:scale-105">
+              <a
+                href="https://apps.apple.com/us/app/simple-handwriting-chat/id6758146611"
+                className="inline-block transition-transform hover:scale-105"
+              >
                 <Image src={`/apple/${badgeLang}.svg`} alt={dict.hero.appStoreAlt} width={135} height={48} />
               </a>
-              {/* biome-ignore lint/a11y/useValidAnchor: Placeholder link - replace with actual Google Play URL */}
-              <a href="#" className="inline-block transition-transform hover:scale-105">
+              <a
+                href="https://play.google.com/store/apps/details?id=com.aphlo.simplehandwritingchat"
+                className="inline-block transition-transform hover:scale-105"
+              >
                 <Image src={`/google/${badgeLang}.svg`} alt={dict.hero.googlePlayAlt} width={162} height={48} />
               </a>
             </div>
