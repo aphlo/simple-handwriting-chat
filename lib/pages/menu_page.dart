@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../constants.dart';
 import '../l10n/app_localizations.dart';
 import '../main.dart';
 import '../services/ad_service.dart';
-import 'webview_page.dart';
 
 class MenuPage extends StatefulWidget {
   const MenuPage({super.key});
@@ -56,13 +56,9 @@ class _MenuPageState extends State<MenuPage> {
     });
   }
 
-  void _openWebView(BuildContext context, String title, String url) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => WebViewPage(title: title, url: url),
-      ),
-    );
+  Future<void> _openUrl(String url) async {
+    final uri = Uri.parse(url);
+    await launchUrl(uri, mode: LaunchMode.inAppBrowserView);
   }
 
   String _getLanguageDisplayName(AppLocalizations l10n, String? code) {
@@ -153,21 +149,13 @@ class _MenuPageState extends State<MenuPage> {
                         leading: const Icon(Icons.description_outlined),
                         title: Text(l10n.termsOfService),
                         trailing: const Icon(Icons.chevron_right),
-                        onTap: () => _openWebView(
-                          context,
-                          l10n.termsOfService,
-                          termsOfServiceUrl,
-                        ),
+                        onTap: () => _openUrl(termsOfServiceUrl),
                       ),
                       ListTile(
                         leading: const Icon(Icons.privacy_tip_outlined),
                         title: Text(l10n.privacyPolicy),
                         trailing: const Icon(Icons.chevron_right),
-                        onTap: () => _openWebView(
-                          context,
-                          l10n.privacyPolicy,
-                          privacyPolicyUrl,
-                        ),
+                        onTap: () => _openUrl(privacyPolicyUrl),
                       ),
                       ListTile(
                         leading: const Icon(Icons.article_outlined),

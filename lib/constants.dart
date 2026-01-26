@@ -1,3 +1,3 @@
-const String termsOfServiceUrl = 'https://example.com/terms';
-const String privacyPolicyUrl = 'https://example.com/privacy';
+const String termsOfServiceUrl = 'https://simple-handwriting-chat.web.app/terms';
+const String privacyPolicyUrl = 'https://simple-handwriting-chat.web.app/privacy';
 const String languagePreferenceKey = 'language';
