@@ -13,5 +13,12 @@
   "language": "言語",
   "languageSystem": "システム設定",
   "languageEnglish": "英語",
-  "languageJapanese": "日本語"
+  "languageJapanese": "日本語",
+  "removeAds": "広告を削除",
+  "removeAdsPurchased": "広告削除済み",
+  "restorePurchases": "購入を復元",
+  "purchaseSuccess": "購入が完了しました！広告が非表示になります。",
+  "purchaseFailed": "購入に失敗しました。もう一度お試しください。",
+  "restoreSuccess": "購入の復元が完了しました！",
+  "restoreNoPurchases": "過去の購入が見つかりませんでした。"
 }

@@ -53,4 +53,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get languageJapanese => 'Japanese';
+
+  @override
+  String get removeAds => 'Remove Ads';
+
+  @override
+  String get removeAdsPurchased => 'Ads Removed';
+
+  @override
+  String get restorePurchases => 'Restore Purchases';
+
+  @override
+  String get purchaseSuccess => 'Purchase successful! Ads have been removed.';
+
+  @override
+  String get purchaseFailed => 'Purchase failed. Please try again.';
+
+  @override
+  String get restoreSuccess => 'Purchases restored successfully!';
+
+  @override
+  String get restoreNoPurchases => 'No previous purchases found.';
 }

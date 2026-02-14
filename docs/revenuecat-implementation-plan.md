@@ -62,15 +62,59 @@ RevenueCat を使って iOS / Android 両方に**広告削除の買い切り（N
 
 **URL**: https://appstoreconnect.apple.com
 
-#### A-1. App 内課金の Shared Secret を取得
+#### A-1. In-App Purchase Key（p8 キー）を作成
+
+> Shared Secret は Legacy（非推奨）です。RevenueCat は StoreKit 2 対応の
+> **In-App Purchase Key（p8）** 方式を推奨しています。
+>
+> 参考: https://www.revenuecat.com/docs/service-credentials/itunesconnect-app-specific-shared-secret/in-app-purchase-key-configuration
 
 1. App Store Connect にログイン
-2. 「マイ App」→「Simple Handwriting Chat」を選択
-3. 左サイドバー「一般」→「App 情報」
-4. 左サイドバー「App 内課金」→「管理」ページを開く
-5. **別途**、「ユーザとアクセス」→「共有シークレット」→ ページ上部の「App 用共有シークレット」を生成（もしくは既にある場合はコピー）
-   - ※ 2024 年以降は「App 情報」の「App 用共有シークレット」から取得する画面に統合されている場合あり
-6. このシークレットを**メモしておく**（後で RevenueCat に登録）
+2. **「ユーザとアクセス」** → **「統合」** を開く
+   - 直リンク: https://appstoreconnect.apple.com/access/integrations/api/subs
+3. 左サイドバーまたはタブで **「アプリ内課金」** を選択
+4. **「アプリ内課金キーを生成」** をクリック（既にキーがある場合は「Active」ヘッダー横の「+」）
+5. キー名を入力: `RevenueCat`（任意、管理用の名前）
+6. 生成されたら **「API キーをダウンロード」** をクリック
+   - ファイル名: `SubscriptionKey_XXXXXXXXXX.p8`
+   - **ダウンロードは 1 回のみ**。安全な場所に保管すること
+7. 以下の 2 つの値をメモする:
+   - **Key ID**: 生成されたキーの一覧に表示される ID
+   - **Issuer ID**: 同じページの上部に表示される
+     - 表示されない場合は「App Store Connect API」タブで任意の API キーを 1 つ作成すると Issuer ID が表示されるようになる（Issuer ID は共通）
+
+後で RevenueCat の **「In-app purchase key configuration」** に登録するもの:
+- p8 ファイル（`SubscriptionKey_XXXXXXXXXX.p8`）
+- Key ID
+- Issuer ID
+
+#### A-1b. App Store Connect API キーを作成
+
+> RevenueCat がプロダクト情報の取得やステータス確認を行うために、
+> In-App Purchase Key とは**別に** App Store Connect API キーも必要。
+
+1. App Store Connect →**「ユーザとアクセス」→「統合」**
+   - 直リンク: https://appstoreconnect.apple.com/access/integrations/api
+2. **「App Store Connect API」** タブを選択（※「アプリ内課金」タブではない方）
+3. **「+」** をクリックしてキーを生成
+   - キー名: `RevenueCat`（任意）
+   - アクセス: **「Admin」** または **「App Manager」**
+4. **「API キーをダウンロード」** をクリック
+   - ファイル名: `AuthKey_XXXXXXXXXX.p8`
+   - **ダウンロードは 1 回のみ**。安全な場所に保管すること
+5. **Key ID** をメモする（Issuer ID は A-1 と共通）
+
+後で RevenueCat の **「App Store Connect API」** に登録するもの:
+- p8 ファイル（`AuthKey_XXXXXXXXXX.p8`）
+- Key ID
+- Issuer ID（A-1 と同じ値）
+
+> **まとめ: RevenueCat の iOS アプリ設定には 2 つのキーが必要**
+>
+> | RevenueCat のセクション | App Store Connect での場所 | ファイル名の形式 |
+> |------------------------|--------------------------|----------------|
+> | In-app purchase key configuration | 統合 →「アプリ内課金」タブ | `SubscriptionKey_XXXX.p8` |
+> | App Store Connect API | 統合 →「App Store Connect API」タブ | `AuthKey_XXXX.p8` |
 
 #### A-2. App 内課金プロダクトを作成
 
@@ -175,9 +219,17 @@ RevenueCat を使って iOS / Android 両方に**広告削除の買い切り（N
 3. 設定:
    - App name: `Simple Handwriting Chat (iOS)`
    - App Bundle ID: **`com.aphlo.simplehandwritingchat`**
-   - App Store Connect App-Specific Shared Secret: **Phase A-1 で取得した値を貼り付け**
 4. 「Save Changes」
 5. **Public API Key が表示される → メモする**（`appl_XXXX...` の形式）
+6. **In-app purchase key configuration** セクション:
+   - **P8 key file**: Phase A-1 でダウンロードした `SubscriptionKey_XXXXXXXXXX.p8` をアップロード
+   - **Key ID**: Phase A-1 でメモした Key ID を入力
+   - **Issuer ID**: Phase A-1 でメモした Issuer ID を入力
+7. **App Store Connect API** セクション:
+   - **P8 key file**: Phase A-1b でダウンロードした `AuthKey_XXXXXXXXXX.p8` をアップロード
+   - **Key ID**: Phase A-1b でメモした Key ID を入力
+   - （Issuer ID は自動入力される、または A-1 と同じ値）
+8. 「Save Changes」
 
 #### C-3. Android アプリの登録
 
@@ -192,15 +244,16 @@ RevenueCat を使って iOS / Android 両方に**広告削除の買い切り（N
 
 #### C-4. Entitlement の作成
 
-1. 左サイドバー「Entitlements」→「+ New」
-2. 設定:
+1. 左サイドバー **「Product catalog」** をクリック
+2. **「Entitlements」** タブを選択 →「+ New」
+3. 設定:
    - Identifier: **`pro`**
    - Description: `Remove all ads`（任意）
-3. 「Save」
+4. 「Save」
 
 #### C-5. Product の登録
 
-1. 左サイドバー「Products」→「+ New」
+1. **「Product catalog」** → **「Products」** タブ →「+ New」
 2. **iOS 用:**
    - App: `Simple Handwriting Chat (iOS)` を選択
    - Product Identifier: **`remove_ads`**
@@ -213,14 +266,14 @@ RevenueCat を使って iOS / Android 両方に**広告削除の買い切り（N
 
 #### C-6. Entitlement に Product を紐付け
 
-1. 「Entitlements」→ 作成した **`pro`** をクリック
+1. **「Product catalog」** → **「Entitlements」** タブ → 作成した **`pro`** をクリック
 2. 「Attach」→ iOS の `remove_ads` を選択 →「Attach」
 3. もう一度「Attach」→ Android の `remove_ads` を選択 →「Attach」
 4. 結果: `pro` entitlement に 2 つの product が紐付いている状態
 
 #### C-7. Offering の作成
 
-1. 左サイドバー「Offerings」→「+ New」
+1. **「Product catalog」** → **「Offerings」** タブ →「+ New」
 2. 設定:
    - Identifier: **`default`**（SDK がデフォルトで参照する ID）
    - Description: `Default offering`（任意）

@@ -8,6 +8,7 @@ import '../constants.dart';
 import '../l10n/app_localizations.dart';
 import '../main.dart';
 import '../services/ad_service.dart';
+import '../services/purchase_service.dart';
 
 class MenuPage extends StatefulWidget {
   const MenuPage({super.key});
@@ -20,12 +21,17 @@ class _MenuPageState extends State<MenuPage> {
   String? _currentLanguage;
   NativeAd? _nativeAd;
   bool _isNativeAdLoaded = false;
+  String? _removeAdsPrice;
+  bool _isPurchaseLoading = false;
 
   @override
   void initState() {
     super.initState();
     _loadCurrentLanguage();
-    _loadNativeAd();
+    if (!PurchaseService().isPro.value) {
+      _loadNativeAd();
+      _loadPrice();
+    }
   }
 
   @override
@@ -49,6 +55,15 @@ class _MenuPageState extends State<MenuPage> {
     _nativeAd!.load();
   }
 
+  Future<void> _loadPrice() async {
+    final package = await PurchaseService().getRemoveAdsPackage();
+    if (package != null && mounted) {
+      setState(() {
+        _removeAdsPrice = package.storeProduct.priceString;
+      });
+    }
+  }
+
   Future<void> _loadCurrentLanguage() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -70,6 +85,38 @@ class _MenuPageState extends State<MenuPage> {
       default:
         return l10n.languageSystem;
     }
+  }
+
+  Future<void> _purchaseRemoveAds() async {
+    setState(() => _isPurchaseLoading = true);
+    final l10n = AppLocalizations.of(context)!;
+
+    final success = await PurchaseService().purchaseRemoveAds();
+
+    if (!mounted) return;
+    setState(() => _isPurchaseLoading = false);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(success ? l10n.purchaseSuccess : l10n.purchaseFailed),
+      ),
+    );
+  }
+
+  Future<void> _restorePurchases() async {
+    setState(() => _isPurchaseLoading = true);
+    final l10n = AppLocalizations.of(context)!;
+
+    final restored = await PurchaseService().restorePurchases();
+
+    if (!mounted) return;
+    setState(() => _isPurchaseLoading = false);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(restored ? l10n.restoreSuccess : l10n.restoreNoPurchases),
+      ),
+    );
   }
 
   void _showLanguageDialog() {
@@ -135,6 +182,61 @@ class _MenuPageState extends State<MenuPage> {
 
                   return ListView(
                     children: [
+                      ValueListenableBuilder<bool>(
+                        valueListenable: PurchaseService().isPro,
+                        builder: (context, isPro, _) {
+                          if (isPro) {
+                            return Column(
+                              children: [
+                                ListTile(
+                                  leading: const Icon(
+                                    Icons.check_circle,
+                                    color: Colors.teal,
+                                  ),
+                                  title: Text(l10n.removeAdsPurchased),
+                                ),
+                                const Divider(),
+                              ],
+                            );
+                          }
+                          return Column(
+                            children: [
+                              ListTile(
+                                leading: const Icon(
+                                  Icons.remove_circle_outline,
+                                ),
+                                title: Text(l10n.removeAds),
+                                subtitle: _removeAdsPrice != null
+                                    ? Text(_removeAdsPrice!)
+                                    : null,
+                                trailing: _isPurchaseLoading
+                                    ? const SizedBox(
+                                        width: 24,
+                                        height: 24,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                        ),
+                                      )
+                                    : const Icon(Icons.chevron_right),
+                                onTap: _isPurchaseLoading
+                                    ? null
+                                    : _purchaseRemoveAds,
+                              ),
+                              ListTile(
+                                leading: const Icon(Icons.restore),
+                                title: Text(l10n.restorePurchases),
+                                trailing: _isPurchaseLoading
+                                    ? null
+                                    : const Icon(Icons.chevron_right),
+                                onTap: _isPurchaseLoading
+                                    ? null
+                                    : _restorePurchases,
+                              ),
+                              const Divider(),
+                            ],
+                          );
+                        },
+                      ),
                       ListTile(
                         leading: const Icon(Icons.language),
                         title: Text(l10n.language),
@@ -185,21 +287,33 @@ class _MenuPageState extends State<MenuPage> {
                 },
               ),
             ),
-            if (_isNativeAdLoaded && _nativeAd != null)
-              Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                  border: Border(
-                    top: BorderSide(
-                      color: Theme.of(context).colorScheme.outlineVariant,
+            ValueListenableBuilder<bool>(
+              valueListenable: PurchaseService().isPro,
+              builder: (context, isPro, _) {
+                if (isPro || !_isNativeAdLoaded || _nativeAd == null) {
+                  return const SizedBox.shrink();
+                }
+                return Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.surfaceContainerHighest,
+                    border: Border(
+                      top: BorderSide(
+                        color: Theme.of(context).colorScheme.outlineVariant,
+                      ),
                     ),
                   ),
-                ),
-                child: SafeArea(
-                  top: false,
-                  child: SizedBox(height: 300, child: AdWidget(ad: _nativeAd!)),
-                ),
-              ),
+                  child: SafeArea(
+                    top: false,
+                    child: SizedBox(
+                      height: 300,
+                      child: AdWidget(ad: _nativeAd!),
+                    ),
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),
