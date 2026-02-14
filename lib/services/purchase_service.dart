@@ -11,12 +11,11 @@ class PurchaseService {
   static const String _iosApiKey = 'appl_eFbAhvmBlBhhlNIGyWtFEzyRKvB';
   static const String _androidApiKey = 'goog_coxtzlwtgaylYVJjfnicpgjzOuG';
 
-  static const String _entitlementId = 'pro';
+  static const String _entitlementId = 'simple handwriting chat Pro';
 
   final ValueNotifier<bool> isPro = ValueNotifier(false);
 
   Future<void> initialize() async {
-    await Purchases.setLogLevel(LogLevel.debug);
     final config = PurchasesConfiguration(
       Platform.isIOS ? _iosApiKey : _androidApiKey,
     );
@@ -63,7 +62,10 @@ class PurchaseService {
       return isPro.value;
     } catch (e) {
       debugPrint('Purchase failed: $e');
-      return false;
+      // StoreKit may have completed the transaction even if RevenueCat threw.
+      // Re-check customer info to see if the entitlement is now active.
+      await _refreshStatus();
+      return isPro.value;
     }
   }
 

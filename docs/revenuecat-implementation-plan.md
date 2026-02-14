@@ -247,7 +247,7 @@ RevenueCat を使って iOS / Android 両方に**広告削除の買い切り（N
 1. 左サイドバー **「Product catalog」** をクリック
 2. **「Entitlements」** タブを選択 →「+ New」
 3. 設定:
-   - Identifier: **`pro`**
+   - Identifier: **`simple handwriting chat Pro`**
    - Description: `Remove all ads`（任意）
 4. 「Save」
 
@@ -266,10 +266,10 @@ RevenueCat を使って iOS / Android 両方に**広告削除の買い切り（N
 
 #### C-6. Entitlement に Product を紐付け
 
-1. **「Product catalog」** → **「Entitlements」** タブ → 作成した **`pro`** をクリック
+1. **「Product catalog」** → **「Entitlements」** タブ → 作成した **`simple handwriting chat Pro`** をクリック
 2. 「Attach」→ iOS の `remove_ads` を選択 →「Attach」
 3. もう一度「Attach」→ Android の `remove_ads` を選択 →「Attach」
-4. 結果: `pro` entitlement に 2 つの product が紐付いている状態
+4. 結果: `simple handwriting chat Pro` entitlement に 2 つの product が紐付いている状態
 
 #### C-7. Offering の作成
 
@@ -297,7 +297,7 @@ Project: Simple Handwriting Chat
 │   ├── iOS (appl_XXXX...)
 │   └── Android (goog_XXXX...)
 ├── Entitlements
-│   └── pro
+│   └── simple handwriting chat Pro
 │       ├── remove_ads (iOS)
 │       └── remove_ads (Android)
 └── Offerings
@@ -350,7 +350,7 @@ class PurchaseService {
   static const String _iosApiKey = 'appl_XXXXXXXXXXXXXXXXXX';
   static const String _androidApiKey = 'goog_XXXXXXXXXXXXXXXXXX';
 
-  static const String _entitlementId = 'pro';
+  static const String _entitlementId = 'simple handwriting chat Pro';
 
   final ValueNotifier<bool> isPro = ValueNotifier(false);
 
@@ -787,5 +787,5 @@ Android はストアのテスト環境を使う必要がある（iOS の StoreKi
 
 - **Apple のレビューガイドライン**: 「購入を復元」ボタンの設置は必須（App Store Review Guidelines 3.1.1）
 - **RevenueCat の無料枠**: 月間 $2,500 の MTR まで無料
-- **Entitlement ベースの設計**: プロダクト ID ではなく Entitlement (`pro`) で判定することで、将来プロダクトを変更しても影響を最小化できる
+- **Entitlement ベースの設計**: プロダクト ID ではなく Entitlement (`simple handwriting chat Pro`) で判定することで、将来プロダクトを変更しても影響を最小化できる
 - **オフライン対応**: RevenueCat SDK はキャッシュを持つため、オフラインでも購入状態を正しく反映する
