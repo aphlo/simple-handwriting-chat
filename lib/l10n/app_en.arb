@@ -27,5 +27,12 @@
   "language": "Language",
   "languageSystem": "System Default",
   "languageEnglish": "English",
-  "languageJapanese": "Japanese"
+  "languageJapanese": "Japanese",
+  "removeAds": "Remove Ads",
+  "removeAdsPurchased": "Ads Removed",
+  "restorePurchases": "Restore Purchases",
+  "purchaseSuccess": "Purchase successful! Ads have been removed.",
+  "purchaseFailed": "Purchase failed. Please try again.",
+  "restoreSuccess": "Purchases restored successfully!",
+  "restoreNoPurchases": "No previous purchases found."
 }

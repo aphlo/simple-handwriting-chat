@@ -6,11 +6,13 @@ import 'constants.dart';
 import 'l10n/app_localizations.dart';
 import 'pages/mirror_drawing_page.dart';
 import 'services/ad_service.dart';
+import 'services/purchase_service.dart';
 import 'services/review_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await PurchaseService().initialize();
   await AdService().initialize();
   await ReviewService().incrementAppLaunchCount();
   runApp(const SimpleHandwritingChatApp());

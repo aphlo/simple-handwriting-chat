@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'purchase_service.dart';
 import 'review_service.dart';
 
 class AdService {
@@ -39,7 +40,9 @@ class AdService {
     if (_isInitialized) return;
     await MobileAds.instance.initialize();
     _isInitialized = true;
-    _loadInterstitialAd();
+    if (!PurchaseService().isPro.value) {
+      _loadInterstitialAd();
+    }
   }
 
   void _loadInterstitialAd() {
@@ -70,6 +73,8 @@ class AdService {
   }
 
   Future<void> onClearButtonPressed() async {
+    if (PurchaseService().isPro.value) return;
+
     final prefs = await SharedPreferences.getInstance();
     final reviewRequested =
         prefs.getBool(ReviewService.reviewRequestedKey) ?? false;
