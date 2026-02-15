@@ -40,7 +40,9 @@ class AdService {
     if (_isInitialized) return;
     await MobileAds.instance.initialize();
     _isInitialized = true;
-    _loadInterstitialAd();
+    if (!PurchaseService().isPro.value) {
+      _loadInterstitialAd();
+    }
   }
 
   void _loadInterstitialAd() {

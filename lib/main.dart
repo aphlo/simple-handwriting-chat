@@ -12,8 +12,8 @@ import 'services/review_service.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await AdService().initialize();
   await PurchaseService().initialize();
+  await AdService().initialize();
   await ReviewService().incrementAppLaunchCount();
   runApp(const SimpleHandwritingChatApp());
 }
